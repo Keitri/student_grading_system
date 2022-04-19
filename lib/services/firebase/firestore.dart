@@ -235,4 +235,19 @@ class Firestore implements IDatabase {
         .onError((error, stackTrace) =>
             const ResultModel.error(message: AppText.subjectError));
   }
+
+  @override
+  Stream<List<SubjectModel>> getFacultySubjectStream(String facultyId) {
+    return FirebaseFirestore.instance
+        .collection(subjectTable)
+        .where('facultyId', isEqualTo: facultyId)
+        .snapshots()
+        .map((snapshots) {
+      final result = <SubjectModel>[];
+      for (var element in snapshots.docs) {
+        result.add(SubjectModel.map(element.data()));
+      }
+      return result;
+    });
+  }
 }

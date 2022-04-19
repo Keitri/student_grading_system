@@ -17,4 +17,12 @@ class Authenticated extends AuthState {
   const Authenticated({required this.currentUser});
 }
 
+class AuthPasswordChanged extends AuthState {}
+
+class AuthPasswordChangeError extends AuthState {
+  final String errorMessage;
+
+  const AuthPasswordChangeError({required this.errorMessage});
+}
+
 class AuthError extends AuthState {}

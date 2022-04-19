@@ -9,6 +9,11 @@ abstract class SubjectEvent extends Equatable {
 
 class GetAllSubjectEvent extends SubjectEvent {}
 
+class GetSubjectForFacultyEvent extends SubjectEvent {
+  final String facultyId;
+  const GetSubjectForFacultyEvent({required this.facultyId});
+}
+
 class GetSubjectDetails extends SubjectEvent {}
 
 class LoadSubjectList extends SubjectEvent {}

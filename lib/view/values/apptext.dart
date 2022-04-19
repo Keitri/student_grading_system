@@ -7,6 +7,9 @@ class AppText {
   static const String firstName = "First Name";
   static const String lastName = "Last Name";
   static const String defaultPass = "Default Password";
+  static const String newPassword = "New Password";
+  static const String confirmPass = "Confirm Password";
+  static const String confirm = "Confirm";
   static const String facultyAssigned = "Assigned Faculty";
   static const String change = "Change";
   static const String password = "Password";
@@ -52,4 +55,6 @@ class AppText {
   static const String description = "Description";
   static const String units = "Units";
   static const String categories = "Categories";
+  static const String logout = "Logout";
+  static const String changePassword = "Change Password";
 }

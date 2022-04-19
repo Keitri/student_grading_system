@@ -6,4 +6,8 @@ abstract class IAuth {
   Future<ResultModel> login(String mobileNumber, password);
 
   String? getCurrentLoggedInId();
+
+  Future logout();
+
+  Future<ResultModel> changePassword(String newPassword);
 }

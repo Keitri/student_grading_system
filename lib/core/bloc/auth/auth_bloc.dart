@@ -28,5 +28,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthenticateEvent>((event, emit) {
       emit(Authenticated(currentUser: event.currentUser));
     });
+    on<LogoutEvent>((event, emit) async {
+      await auth.logout();
+      emit(AuthInitial());
+    });
+    on<ChangePassword>((event, emit) async {
+      final result = await auth.changePassword(event.newPassword);
+      if (result.isError) {
+        emit(AuthPasswordChangeError(errorMessage: result.message));
+      } else {
+        emit(AuthPasswordChanged());
+        emit(AuthInitial());
+      }
+    });
   }
 }

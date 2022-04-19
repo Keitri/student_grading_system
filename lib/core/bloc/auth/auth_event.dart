@@ -16,3 +16,9 @@ class AuthenticateEvent extends AuthEvent {
 }
 
 class LogoutEvent extends AuthEvent {}
+
+class ChangePassword extends AuthEvent {
+  final String newPassword;
+
+  const ChangePassword({required this.newPassword});
+}

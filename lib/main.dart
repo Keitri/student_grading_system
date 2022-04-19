@@ -63,6 +63,18 @@ class MyApp extends StatelessWidget {
         ],
         child: BlocListener<AuthBloc, AuthState>(
             listener: (_, state) {
+              if (state is AuthPasswordChanged) {
+                // Show Snackbar
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Password Changed'),
+                  backgroundColor: Colors.green,
+                ));
+              }
+
+              if (state is AuthPasswordChangeError) {
+                return;
+              }
+
               if (state is Authenticated) {
                 // Go to Main Page
                 _navigator?.pushReplacementNamed(AppRoutes.home);

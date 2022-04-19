@@ -55,4 +55,23 @@ class FBAuth implements IAuth {
 
     return null;
   }
+
+  @override
+  Future logout() {
+    return FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  Future<ResultModel> changePassword(String newPassword) async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      try {
+        await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+        return const ResultModel.success(message: '');
+      } on FirebaseAuthException catch (e) {
+        return ResultModel.error(message: e.message.toString());
+      }
+    } else {
+      return const ResultModel.error(message: 'Cannot validate user!');
+    }
+  }
 }
