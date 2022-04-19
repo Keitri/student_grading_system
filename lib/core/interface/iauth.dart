@@ -5,8 +5,5 @@ abstract class IAuth {
 
   Future<ResultModel> login(String mobileNumber, password);
 
-  Future<ResultModel> createFacultyUser(String mobileNumber, String firstName,
-      String lastName, String defaultPassword);
-
   String? getCurrentLoggedInId();
 }

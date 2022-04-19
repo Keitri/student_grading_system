@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:student_grading_app/core/model/faculty.dart';
 import 'package:student_grading_app/core/model/registrar.dart';
 import 'package:student_grading_app/core/model/result.dart';
 
@@ -55,26 +54,5 @@ class FBAuth implements IAuth {
     }
 
     return null;
-  }
-
-  @override
-  Future<ResultModel> createFacultyUser(String mobileNumber, String firstName,
-      String lastName, String defaultPassword) async {
-    try {
-      final userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: mobileNumber + '@keitri.com', password: defaultPassword);
-      // Create a Faculty User
-      final newFacultyUser = FacultyModel(
-          id: userCredential.user!.uid,
-          mobileNumber: mobileNumber,
-          defaultPassword: defaultPassword,
-          firstName: firstName,
-          lastName: lastName);
-      return ResultModel.success(message: "", args: newFacultyUser);
-    } on FirebaseAuthException catch (e) {
-      log(e.message.toString());
-      return ResultModel.error(message: e.message.toString());
-    }
   }
 }

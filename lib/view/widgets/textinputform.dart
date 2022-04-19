@@ -5,11 +5,13 @@ class TextInput extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final bool obscureText;
+  final FormFieldValidator<String>? validator;
 
   const TextInput(
       {required this.label,
       required this.controller,
       Key? key,
+      this.validator,
       this.inputType = TextInputType.text,
       this.obscureText = false})
       : super(key: key);
@@ -26,16 +28,22 @@ class TextInput extends StatelessWidget {
       enabledBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.grey, width: 1.0),
       ),
+      errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 1.0)),
+      focusedErrorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 1.0)),
       labelText: label,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: validator,
       keyboardType: inputType,
       obscureText: obscureText,
       controller: controller,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: _textDecoration(context: context, label: label),
     );
   }

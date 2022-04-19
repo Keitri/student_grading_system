@@ -57,6 +57,37 @@ class Firestore implements IDatabase {
     return FirebaseFirestore.instance.collection(table).doc(userId).get();
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> _checkMobileNumber(
+      String mobileNumber) async {
+    var result = await FirebaseFirestore.instance
+        .collection(registrarTable)
+        .where('mobileNumber', isEqualTo: mobileNumber)
+        .limit(1)
+        .get();
+
+    if (result.docs.isNotEmpty) {
+      return result;
+    }
+
+    result = await FirebaseFirestore.instance
+        .collection(facultyTable)
+        .where('mobileNumber', isEqualTo: mobileNumber)
+        .limit(1)
+        .get();
+
+    if (result.docs.isNotEmpty) {
+      return result;
+    }
+
+    result = await FirebaseFirestore.instance
+        .collection(studentTable)
+        .where('mobileNumber', isEqualTo: mobileNumber)
+        .limit(1)
+        .get();
+
+    return result;
+  }
+
   @override
   Stream<List<FacultyModel>> allFacultyStream() {
     return FirebaseFirestore.instance
@@ -111,5 +142,49 @@ class Firestore implements IDatabase {
       }
       return result;
     });
+  }
+
+  @override
+  Future<ResultModel> saveNewFacultyUser(FacultyModel data) async {
+    // Check first if Mobile Number is Used
+    final existingUser = await _checkMobileNumber(data.mobileNumber);
+    if (existingUser.docs.isNotEmpty) {
+      // Mobile Number already used
+      return const ResultModel.error(
+          message: 'Mobile number already registered');
+    } else {
+      // Save New Faculty User
+      try {
+        await FirebaseFirestore.instance
+            .collection(facultyTable)
+            .doc(data.id)
+            .set(data.toJSON());
+        return const ResultModel.success(message: AppText.facultyCreated);
+      } catch (e) {
+        return ResultModel.error(message: e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<ResultModel> saveNewStudentUser(StudentModel data) async {
+    // Check first if Mobile Number is Used
+    final existingUser = await _checkMobileNumber(data.mobileNumber);
+    if (existingUser.docs.isNotEmpty) {
+      // Mobile Number already used
+      return const ResultModel.error(
+          message: 'Mobile number already registered');
+    } else {
+      // Save New Student User
+      try {
+        await FirebaseFirestore.instance
+            .collection(studentTable)
+            .doc(data.id)
+            .set(data.toJSON());
+        return const ResultModel.success(message: AppText.studentCreated);
+      } catch (e) {
+        return ResultModel.error(message: e.toString());
+      }
+    }
   }
 }

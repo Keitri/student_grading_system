@@ -1,6 +1,8 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
+admin.initializeApp(functions.config().firebase);
+
 export const createFacultyUser = functions.firestore.document("faculty/{id}")
     .onCreate((snap) => {
     // Create a Faculty User

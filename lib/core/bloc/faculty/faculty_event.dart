@@ -10,3 +10,11 @@ abstract class FacultyEvent extends Equatable {
 class GetAllFacultyEvent extends FacultyEvent {}
 
 class GetFacultyDetails extends FacultyEvent {}
+
+class LoadFacultyList extends FacultyEvent {}
+
+class SaveNewFacultyUser extends FacultyEvent {
+  final FacultyModel newUser;
+
+  const SaveNewFacultyUser({required this.newUser});
+}

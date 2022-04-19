@@ -10,6 +10,10 @@ import '../model/result.dart';
 abstract class IDatabase {
   Future<ResultModel> saveRegistrarUser(RegistrarModel data);
 
+  Future<ResultModel> saveNewFacultyUser(FacultyModel data);
+
+  Future<ResultModel> saveNewStudentUser(StudentModel data);
+
   Future<BaseUser?> getUserDetails(String userId);
 
   Stream<List<SubjectModel>> allSubjectStream();

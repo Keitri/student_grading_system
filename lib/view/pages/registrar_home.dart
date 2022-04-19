@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_grading_app/core/bloc/faculty/faculty_bloc.dart';
+import 'package:student_grading_app/view/pages/faculty_list.dart';
 import 'package:student_grading_app/view/pages/routes.dart';
+import 'package:student_grading_app/view/transitions/transitions.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
 
 class RegistrarHome extends StatelessWidget {
@@ -15,7 +20,7 @@ class RegistrarHome extends StatelessWidget {
     ]);
   }
 
-  Widget _itemCard(String title, Color color, {int count = 0}) {
+  Widget _itemCard(bool isLoading, String title, Color color, {int count = 0}) {
     return Card(
         color: color,
         child: Container(
@@ -33,13 +38,15 @@ class RegistrarHome extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Expanded(child: Container()),
-                Text(
-                  count.toString(),
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                )
+                !isLoading
+                    ? Text(
+                        count.toString(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )
+                    : const CupertinoActivityIndicator()
               ])
             ])));
   }
@@ -48,27 +55,34 @@ class RegistrarHome extends StatelessWidget {
   Widget _subjects(BuildContext context) {
     return GestureDetector(
         onTap: () => Navigator.of(context).pushNamed(AppRoutes.subjectList),
-        child: _itemCard(AppText.subjects, Colors.orangeAccent));
+        child: _itemCard(false, AppText.subjects, Colors.orangeAccent));
   }
 
   // Faculty
   Widget _faculties(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(AppRoutes.facultyList),
-        child: _itemCard(AppText.faculties, Colors.deepPurpleAccent));
+        onTap: () => Navigator.of(context).push(SlideRightRoute(
+            page:
+                FacultyListPage(bloc: BlocProvider.of<FacultyBloc>(context)))),
+        child: BlocBuilder<FacultyBloc, FacultyState>(
+            buildWhen: (previous, current) =>
+                current is FacultyListLoaded || current is FacultyLoading,
+            builder: (_, state) => _itemCard(state is FacultyLoading,
+                AppText.faculties, Colors.deepPurpleAccent,
+                count: state is FacultyListLoaded ? state.data.length : 0)));
   }
 
   // Students
   Widget _students(BuildContext context) {
     return GestureDetector(
         onTap: () => Navigator.of(context).pushNamed(AppRoutes.studentList),
-        child: _itemCard(AppText.students, Colors.redAccent));
+        child: _itemCard(false, AppText.students, Colors.redAccent));
   }
 
   // Grades
   Widget _grades(BuildContext context) {
     return GestureDetector(
         onTap: () => Navigator.of(context).pushNamed(AppRoutes.gradeList),
-        child: _itemCard(AppText.grades, Colors.green));
+        child: _itemCard(false, AppText.grades, Colors.green));
   }
 }
