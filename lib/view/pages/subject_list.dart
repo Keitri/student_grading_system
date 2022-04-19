@@ -66,6 +66,12 @@ class SubjectListPage extends StatelessWidget {
             ListTile(
               title: Text(f.code),
               subtitle: Text(f.description),
+              trailing: Text(
+                f.studentIds.length.toString() +
+                    " " +
+                    AppText.students.toLowerCase(),
+                style: const TextStyle(color: Colors.black54),
+              ),
               onTap: () {
                 bloc.add(UpdateSubjectDetails(updatedData: f));
                 Navigator.of(context).push(SlideRightRoute(

@@ -16,8 +16,13 @@ class Validator {
       return 'Required';
     }
 
-    //TODO Add Password Check Here
+    final regex = RegExp(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{10,}\$");
+    final valid = regex.hasMatch(value);
 
+    if (!valid) {
+      return 'Password should be at least 10 characters and must contain lowercase, \nuppercase, number and special character.';
+    }
     return null;
   }
 }
