@@ -21,6 +21,13 @@ class RegistrarModel extends BaseUser {
             firstName: json['firstName'],
             lastName: json['lastName']);
 
+  Map<String, dynamic> toJSON() => {
+        'id': id,
+        'mobileNumber': mobileNumber,
+        'firsName': firstName,
+        'lastName': lastName
+      };
+
   @override
   List<Object?> get props => [id, mobileNumber, firstName, lastName];
 }

@@ -23,6 +23,8 @@ Flutter Version: 2.10.5
     TWILIO_ACCOUNTSID = "your twilio account sid"
     TWILIO_AUTHTOKEN = "your twilio auth token"
     TWILIO_NUMBER = "your twilio number"
+    REGISTRAR_ACCOUNT = "Default Phone for Registrar"
+    REGISTRAR_INITIAL_PASSWORD = "Initial Password for Registrar"
 ```
 
 - Run command `flutter run` to test the app.
