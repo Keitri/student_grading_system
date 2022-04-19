@@ -24,6 +24,14 @@ class FacultyModel extends BaseUser {
             lastName: json['lastName'],
             defaultPassword: json['defaultPassword']);
 
+  const FacultyModel.blank()
+      : this(
+            id: "",
+            mobileNumber: "",
+            firstName: "",
+            lastName: "",
+            defaultPassword: "");
+
   Map<String, dynamic> toJSON() => {
         'id': id,
         'mobileNumber': mobileNumber,

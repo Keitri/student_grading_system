@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_grading_app/core/interface/idatabase.dart';
+import 'package:student_grading_app/core/model/attendance.dart';
 import 'package:student_grading_app/core/model/base_user.dart';
+import 'package:student_grading_app/core/model/class.dart';
 import 'package:student_grading_app/core/model/faculty.dart';
 import 'package:student_grading_app/core/model/grade.dart';
 import 'package:student_grading_app/core/model/result.dart';
@@ -15,6 +17,7 @@ class Firestore implements IDatabase {
   final String studentTable = "student";
   final String subjectTable = "subject";
   final String attendanceTable = "attendance";
+  final String classTable = "class";
   final String gradeTable = "grade";
 
   @override
@@ -186,5 +189,50 @@ class Firestore implements IDatabase {
         return ResultModel.error(message: e.toString());
       }
     }
+  }
+
+  @override
+  Future<ResultModel> saveAttendance(AttendanceModel data) {
+    return FirebaseFirestore.instance
+        .collection(attendanceTable)
+        .doc(data.id)
+        .set(data.toJSON())
+        .then(
+            (_) => const ResultModel.success(message: AppText.attendanceSaved))
+        .onError((error, stackTrace) =>
+            const ResultModel.error(message: AppText.attendanceError));
+  }
+
+  @override
+  Future<ResultModel> saveClass(ClassModel data) {
+    return FirebaseFirestore.instance
+        .collection(classTable)
+        .doc(data.id)
+        .set(data.toJSON())
+        .then((_) => const ResultModel.success(message: AppText.classSaved))
+        .onError((error, stackTrace) =>
+            const ResultModel.error(message: AppText.classError));
+  }
+
+  @override
+  Future<ResultModel> saveGrade(GradeModel data) {
+    return FirebaseFirestore.instance
+        .collection(gradeTable)
+        .doc(data.id)
+        .set(data.toJSON())
+        .then((_) => const ResultModel.success(message: AppText.gradeSaved))
+        .onError((error, stackTrace) =>
+            const ResultModel.error(message: AppText.gradeError));
+  }
+
+  @override
+  Future<ResultModel> saveSubject(SubjectModel data) {
+    return FirebaseFirestore.instance
+        .collection(subjectTable)
+        .doc(data.id)
+        .set(data.toJSON())
+        .then((_) => const ResultModel.success(message: AppText.subjectSaved))
+        .onError((error, stackTrace) =>
+            const ResultModel.error(message: AppText.subjectError));
   }
 }

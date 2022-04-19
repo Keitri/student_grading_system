@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class GradeModel extends Equatable {
+  final String id;
   final String subjectCode;
   final String studentId;
   final String facultyId;
@@ -10,6 +11,7 @@ class GradeModel extends Equatable {
 
   const GradeModel(
       {required this.subjectCode,
+      required this.id,
       required this.studentId,
       required this.facultyId,
       required this.createDate,
@@ -18,6 +20,7 @@ class GradeModel extends Equatable {
 
   GradeModel.map(Map<String, dynamic> json)
       : this(
+            id: json['id'],
             subjectCode: json['subjectCode'],
             studentId: json['studentId'],
             facultyId: json['facultyId'],
@@ -26,6 +29,7 @@ class GradeModel extends Equatable {
             grades: json['grades']);
 
   Map<String, dynamic> toJSON() => {
+        'id': id,
         'subjectCode': subjectCode,
         'studentId': studentId,
         'facultyId': facultyId,
@@ -36,5 +40,5 @@ class GradeModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [subjectCode, studentId, facultyId, createDate, updateDate, grades];
+      [id, subjectCode, studentId, facultyId, createDate, updateDate, grades];
 }

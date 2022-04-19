@@ -8,6 +8,7 @@ class AppText {
   static const String lastName = "Last Name";
   static const String defaultPass = "Default Password";
   static const String facultyAssigned = "Assigned Faculty";
+  static const String change = "Change";
   static const String password = "Password";
   static const String registrarCreated = "Registrar created";
   static const String registrarError = "Error Saving Registrar";
@@ -39,4 +40,16 @@ class AppText {
   static const String addGrade = "Tap the + button to add a Grade";
   static const String requestGrade = "Contact faculties to enter grades";
   static const String requestSubject = "Contact registrar to add subjects";
+  static const String attendanceSaved = "Attendance saved";
+  static const String attendanceError = "Error saving attendance";
+  static const String classSaved = "Class saved";
+  static const String classError = "Error saving class";
+  static const String subjectSaved = "Subject saved";
+  static const String subjectError = "Subject error";
+  static const String gradeSaved = "Grade saved";
+  static const String gradeError = "Error saving grade";
+  static const String subjectCode = "Code";
+  static const String description = "Description";
+  static const String units = "Units";
+  static const String categories = "Categories";
 }

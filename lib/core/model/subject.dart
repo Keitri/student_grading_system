@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import '../helpers/json.dart';
 
 class SubjectModel extends Equatable {
+  final String id;
   final String code;
   final String description;
   final double units;
@@ -11,6 +12,7 @@ class SubjectModel extends Equatable {
 
   const SubjectModel(
       {required this.code,
+      required this.id,
       required this.description,
       required this.units,
       required this.facultyId,
@@ -19,6 +21,7 @@ class SubjectModel extends Equatable {
 
   SubjectModel.map(Map<String, dynamic> json)
       : this(
+            id: json['id'],
             code: json['code'],
             description: json['description'],
             units: json['units'],
@@ -27,6 +30,7 @@ class SubjectModel extends Equatable {
             studentIds: JsonHelper.dynamicListToString(json['studentIds']));
 
   Map<String, dynamic> toJSON() => {
+        'id': id,
         'code': code,
         'description': description,
         'units': units,
@@ -37,5 +41,5 @@ class SubjectModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [code, description, units, facultyId, categories, studentIds];
+      [id, code, description, units, facultyId, categories, studentIds];
 }

@@ -1,3 +1,5 @@
+import 'package:student_grading_app/core/model/attendance.dart';
+import 'package:student_grading_app/core/model/class.dart';
 import 'package:student_grading_app/core/model/faculty.dart';
 import 'package:student_grading_app/core/model/grade.dart';
 import 'package:student_grading_app/core/model/registrar.dart';
@@ -13,6 +15,14 @@ abstract class IDatabase {
   Future<ResultModel> saveNewFacultyUser(FacultyModel data);
 
   Future<ResultModel> saveNewStudentUser(StudentModel data);
+
+  Future<ResultModel> saveSubject(SubjectModel data);
+
+  Future<ResultModel> saveGrade(GradeModel data);
+
+  Future<ResultModel> saveAttendance(AttendanceModel data);
+
+  Future<ResultModel> saveClass(ClassModel data);
 
   Future<BaseUser?> getUserDetails(String userId);
 

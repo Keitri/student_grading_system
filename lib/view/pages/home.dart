@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart';
+import 'package:student_grading_app/core/bloc/subject/subject_bloc.dart';
 import 'package:student_grading_app/core/model/registrar.dart';
 import 'package:student_grading_app/view/pages/registrar_home.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
@@ -36,12 +37,15 @@ class HomePage extends StatelessWidget {
         case RegistrarModel:
           return MultiBlocProvider(providers: [
             BlocProvider<StudentBloc>(
-              lazy: false,
-              create: (_) => StudentBloc(db: _db)..add(GetAllStudentEvent())
-            ),
+                lazy: false,
+                create: (_) => StudentBloc(db: _db)..add(GetAllStudentEvent())),
             BlocProvider<FacultyBloc>(
               lazy: false,
               create: (_) => FacultyBloc(db: _db)..add(GetAllFacultyEvent()),
+            ),
+            BlocProvider<SubjectBloc>(
+              lazy: false,
+              create: (_) => SubjectBloc(db: _db)..add(GetAllSubjectEvent()),
             )
           ], child: const RegistrarHome());
         default:

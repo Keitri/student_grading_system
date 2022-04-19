@@ -10,6 +10,9 @@ part 'faculty_state.dart';
 class FacultyBloc extends Bloc<FacultyEvent, FacultyState> {
   final IDatabase db;
   final List<FacultyModel> _faculties = <FacultyModel>[];
+
+  List<FacultyModel> get faculties => _faculties;
+
   FacultyBloc({required this.db}) : super(FacultyInitial()) {
     on<SaveNewFacultyUser>((event, emit) async {
       emit(NewFacultySaving());

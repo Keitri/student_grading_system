@@ -10,6 +10,9 @@ part 'student_state.dart';
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
   final IDatabase db;
   final List<StudentModel> _students = <StudentModel>[];
+
+  List<StudentModel> get students => _students;
+
   StudentBloc({required this.db}) : super(StudentInitial()) {
     on<SaveNewStudentUser>((event, emit) async {
       emit(NewStudentSaving());

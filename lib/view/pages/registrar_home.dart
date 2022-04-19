@@ -10,6 +10,7 @@ import 'package:student_grading_app/view/transitions/transitions.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
 
 import '../../core/bloc/student/student_bloc.dart';
+import '../../core/bloc/subject/subject_bloc.dart';
 
 class RegistrarHome extends StatelessWidget {
   const RegistrarHome({Key? key}) : super(key: key);
@@ -58,9 +59,18 @@ class RegistrarHome extends StatelessWidget {
   // Subjects
   Widget _subjects(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.of(context)
-            .push(SlideRightRoute(page: SubjectListPage())),
-        child: _itemCard(false, AppText.subjects, Colors.orangeAccent));
+        onTap: () => Navigator.of(context).push(SlideRightRoute(
+                page: SubjectListPage(
+              bloc: BlocProvider.of<SubjectBloc>(context),
+              facultyBloc: BlocProvider.of<FacultyBloc>(context),
+              studentBloc: BlocProvider.of<StudentBloc>(context),
+            ))),
+        child: BlocBuilder<SubjectBloc, SubjectState>(
+            buildWhen: (previous, current) =>
+                current is SubjectListLoaded || current is SubjectLoading,
+            builder: (_, state) => _itemCard(
+                state is SubjectLoading, AppText.subjects, Colors.orangeAccent,
+                count: state is SubjectListLoaded ? state.data.length : 0)));
   }
 
   // Faculty
