@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_grading_app/core/bloc/auth/auth_bloc.dart';
 import 'package:student_grading_app/core/bloc/login/login_bloc.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
+import 'package:student_grading_app/view/widgets/button.dart';
+import 'package:student_grading_app/view/widgets/textinputform.dart';
+import 'package:student_grading_app/view/widgets/widget.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -12,44 +14,14 @@ class LoginPage extends StatelessWidget {
   final _tcMobileNumber = TextEditingController();
   final _tcPassword = TextEditingController();
 
-  InputDecoration _textDecoration(
-      {required BuildContext context, required String label}) {
-    return InputDecoration(
-      isDense: true,
-      fillColor: Colors.white,
-      focusedBorder: OutlineInputBorder(
-        borderSide:
-            BorderSide(color: Theme.of(context).primaryColor, width: 1.0),
-      ),
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 1.0),
-      ),
-      labelText: label,
-    );
-  }
-
-  Widget get _space => const SizedBox(height: 10);
-
-  Widget _loginButton(BuildContext context, LoginState state) {
-    return SizedBox(
-        width: double.infinity,
-        height: 50,
-        child: TextButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).primaryColor)),
-            onPressed: () {
-              BlocProvider.of<LoginBloc>(context).add(StartLoginEvent(
-                  mobileNumber: _tcMobileNumber.text,
-                  password: _tcPassword.text));
-            },
-            child: state is LoginLoading
-                ? const CupertinoActivityIndicator()
-                : Text(AppText.login.toUpperCase(),
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold))));
+  Widget _loginButton(BuildContext context, bool isLoading) {
+    return PrimaryButton(
+        text: AppText.login,
+        isLoading: isLoading,
+        onPressed: () {
+          BlocProvider.of<LoginBloc>(context).add(StartLoginEvent(
+              mobileNumber: _tcMobileNumber.text, password: _tcPassword.text));
+        });
   }
 
   Widget _errorMessage(LoginState state) {
@@ -74,25 +46,22 @@ class LoginPage extends StatelessWidget {
                           AppText.appName,
                           style: TextStyle(fontSize: 30),
                         ),
-                        _space,
-                        _space,
+                        space,
+                        space,
                         // Phone Input
-                        TextField(
-                          keyboardType: TextInputType.phone,
-                          decoration: _textDecoration(
-                              context: context, label: AppText.mobileNumber),
-                          controller: _tcMobileNumber,
-                        ),
-                        _space,
+                        TextInput(
+                            inputType: TextInputType.phone,
+                            label: AppText.mobileNumber,
+                            controller: _tcMobileNumber),
+                        space,
                         // Password Input
-                        TextField(
-                          keyboardType: TextInputType.visiblePassword,
+                        TextInput(
+                          inputType: TextInputType.visiblePassword,
                           obscureText: true,
-                          decoration: _textDecoration(
-                              context: context, label: AppText.password),
+                          label: AppText.password,
                           controller: _tcPassword,
                         ),
-                        _space,
+                        space,
                         // Login Button
                         BlocConsumer<LoginBloc, LoginState>(
                             listener: (context, state) {
@@ -104,8 +73,8 @@ class LoginPage extends StatelessWidget {
                           }
                         }, builder: (context, state) {
                           return Column(children: [
-                            _loginButton(context, state),
-                            _space,
+                            _loginButton(context, state is LoginLoading),
+                            space,
                             _errorMessage(state)
                           ]);
                         })

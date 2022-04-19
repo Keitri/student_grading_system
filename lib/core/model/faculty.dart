@@ -6,26 +6,30 @@ class FacultyModel extends BaseUser {
       {required String id,
       required String mobileNumber,
       required String firstName,
-      required String lastName})
+      required String lastName,
+      required String defaultPassword})
       : super(
             role: UserRole.faculty,
             id: id,
             mobileNumber: mobileNumber,
             firstName: firstName,
-            lastName: lastName);
+            lastName: lastName,
+            defaultPassword: defaultPassword);
 
   FacultyModel.map(Map<String, dynamic> json)
       : this(
             id: json['id'],
             mobileNumber: json['mobileNumber'],
             firstName: json['firstName'],
-            lastName: json['lastName']);
+            lastName: json['lastName'],
+            defaultPassword: json['defaultPassword']);
 
   Map<String, dynamic> toJSON() => {
         'id': id,
         'mobileNumber': mobileNumber,
         'firstName': firstName,
-        'lastName': lastName
+        'lastName': lastName,
+        'defaultPassword': defaultPassword
       };
 
   @override

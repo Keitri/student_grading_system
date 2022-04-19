@@ -7,9 +7,13 @@ import 'package:student_grading_app/core/interface/iauth.dart';
 import 'package:student_grading_app/core/interface/idatabase.dart';
 import 'package:student_grading_app/services/firebase/firebase_auth.dart';
 import 'package:student_grading_app/services/firebase/firestore.dart';
+import 'package:student_grading_app/view/pages/faculty_list.dart';
+import 'package:student_grading_app/view/pages/grade_list.dart';
 import 'package:student_grading_app/view/pages/home.dart';
+import 'package:student_grading_app/view/pages/student_list.dart';
+import 'package:student_grading_app/view/pages/subject_list.dart';
 import 'package:student_grading_app/view/pages/routes.dart';
-import 'package:student_grading_app/view/transitions/fade_route.dart';
+import 'package:student_grading_app/view/transitions/transitions.dart';
 import 'core/bloc/app/app_bloc.dart';
 import 'core/bloc/login/login_bloc.dart';
 import 'view/pages/pages.dart';
@@ -47,6 +51,14 @@ class MyApp extends StatelessWidget {
                 child: LoginPage()));
       case AppRoutes.home:
         return FadeRoute(page: const HomePage());
+      case AppRoutes.subjectList:
+        return SlideRightRoute(page: const SubjectListPage());
+      case AppRoutes.facultyList:
+        return SlideRightRoute(page: const FacultyListPage());
+      case AppRoutes.studentList:
+        return SlideRightRoute(page: const StudentListPage());
+      case AppRoutes.gradeList:
+        return SlideRightRoute(page: const GradeListPage());
       default:
         return FadeRoute(page: Container());
     }

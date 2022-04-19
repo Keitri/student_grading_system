@@ -9,13 +9,15 @@ class StudentModel extends BaseUser {
       required String mobileNumber,
       required String firstName,
       required String lastName,
-      required this.parentMobileNumber})
+      required this.parentMobileNumber,
+      required String defaultPassword})
       : super(
             id: id,
             role: UserRole.student,
             mobileNumber: mobileNumber,
             firstName: firstName,
-            lastName: lastName);
+            lastName: lastName,
+            defaultPassword: defaultPassword);
 
   StudentModel.map(Map<String, dynamic> json)
       : this(
@@ -23,14 +25,16 @@ class StudentModel extends BaseUser {
             mobileNumber: json['mobileNumber'],
             firstName: json['firstName'],
             lastName: json['lastName'],
-            parentMobileNumber: json['parentMobileNumber']);
+            parentMobileNumber: json['parentMobileNumber'],
+            defaultPassword: json['defaultPassword']);
 
   Map<String, dynamic> toJSON() => {
         'id': id,
         'mobileNumber': mobileNumber,
         'firstName': firstName,
         'lastName': lastName,
-        'parentMobileNumber': parentMobileNumber
+        'parentMobileNumber': parentMobileNumber,
+        'defaultPassword': defaultPassword
       };
 
   @override
