@@ -6,4 +6,7 @@ class AppText {
   static const String password = "Password";
   static const String registrarCreated = "Registrar created";
   static const String registrarError = "Error Saving Registrar";
+  static const String mobileNumberRequired = "Mobile number is required!";
+  static const String passwordRequired = "Password is required!";
+  static const String userNotFound = "User not found!";
 }

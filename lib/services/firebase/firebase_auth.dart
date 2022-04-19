@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:student_grading_app/core/model/registrar.dart';
+import 'package:student_grading_app/core/model/result.dart';
 
 import '../../core/interface/iauth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,5 +31,27 @@ class FBAuth implements IAuth {
       log(e.message.toString());
       return null;
     }
+  }
+
+  @override
+  Future<ResultModel> login(String mobileNumber, password) async {
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: mobileNumber + "@keitri.com", password: password);
+      return ResultModel.success(message: "", args: userCredential.user!.uid);
+    } on FirebaseAuthException catch (e) {
+      return ResultModel.error(message: e.message.toString());
+    }
+  }
+
+  @override
+  String? getCurrentLoggedInId() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      return currentUser.uid;
+    }
+
+    return null;
   }
 }

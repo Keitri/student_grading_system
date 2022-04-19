@@ -24,7 +24,7 @@ class RegistrarModel extends BaseUser {
   Map<String, dynamic> toJSON() => {
         'id': id,
         'mobileNumber': mobileNumber,
-        'firsName': firstName,
+        'firstName': firstName,
         'lastName': lastName
       };
 

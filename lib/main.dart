@@ -7,9 +7,11 @@ import 'package:student_grading_app/core/interface/iauth.dart';
 import 'package:student_grading_app/core/interface/idatabase.dart';
 import 'package:student_grading_app/services/firebase/firebase_auth.dart';
 import 'package:student_grading_app/services/firebase/firestore.dart';
+import 'package:student_grading_app/view/pages/home.dart';
 import 'package:student_grading_app/view/pages/routes.dart';
 import 'package:student_grading_app/view/transitions/fade_route.dart';
 import 'core/bloc/app/app_bloc.dart';
+import 'core/bloc/login/login_bloc.dart';
 import 'view/pages/pages.dart';
 
 void main() async {
@@ -39,7 +41,12 @@ class MyApp extends StatelessWidget {
       case AppRoutes.welcome:
         return FadeRoute(page: const WelcomePage());
       case AppRoutes.login:
-        return FadeRoute(page: LoginPage());
+        return FadeRoute(
+            page: BlocProvider<LoginBloc>(
+                create: (_) => LoginBloc(auth: _auth, db: _db),
+                child: LoginPage()));
+      case AppRoutes.home:
+        return FadeRoute(page: const HomePage());
       default:
         return FadeRoute(page: Container());
     }
@@ -52,12 +59,13 @@ class MyApp extends StatelessWidget {
           BlocProvider<AppBloc>(
               create: (_) => AppBloc(auth: _auth, database: _db)
                 ..add(InitializeAppEvent())),
-          BlocProvider<AuthBloc>(create: (_) => AuthBloc())
+          BlocProvider<AuthBloc>(create: (_) => AuthBloc(auth: _auth, db: _db))
         ],
         child: BlocListener<AuthBloc, AuthState>(
             listener: (_, state) {
               if (state is Authenticated) {
                 // Go to Main Page
+                _navigator?.pushReplacementNamed(AppRoutes.home);
               } else {
                 // Go to Login Page
                 _navigator?.pushReplacementNamed(AppRoutes.login);

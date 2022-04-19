@@ -6,3 +6,10 @@ abstract class LoginEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class StartLoginEvent extends LoginEvent {
+  final String mobileNumber;
+  final String password;
+
+  const StartLoginEvent({required this.mobileNumber, required this.password});
+}

@@ -11,6 +11,10 @@ class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
-class Authenticated extends AuthState {}
+class Authenticated extends AuthState {
+  final BaseUser currentUser;
+
+  const Authenticated({required this.currentUser});
+}
 
 class AuthError extends AuthState {}

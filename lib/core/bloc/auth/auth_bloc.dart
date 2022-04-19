@@ -1,13 +1,32 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:student_grading_app/core/interface/iauth.dart';
+import 'package:student_grading_app/core/interface/idatabase.dart';
+
+import '../../model/base_user.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(AuthInitial()) {
-    on<AutoLoginEvent>((event, emit) {
+  final IAuth auth;
+  final IDatabase db;
+  AuthBloc({required this.auth, required this.db}) : super(AuthInitial()) {
+    on<AutoLoginEvent>((event, emit) async {
+      final uid = auth.getCurrentLoggedInId();
+      if (uid != null) {
+        // Get Details
+        final userDetails = await db.getUserDetails(uid);
+        if (userDetails != null) {
+          emit(Authenticated(currentUser: userDetails));
+          return;
+        }
+      }
+
       emit(AuthInitial());
+    });
+    on<AuthenticateEvent>((event, emit) {
+      emit(Authenticated(currentUser: event.currentUser));
     });
   }
 }

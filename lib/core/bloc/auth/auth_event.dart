@@ -7,19 +7,12 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoginEvent extends AuthEvent {
-  final String mobileNumber;
-  final String password;
-
-  const LoginEvent({required this.mobileNumber, required this.password});
-}
-
 class AutoLoginEvent extends AuthEvent {}
 
-class LogoutEvent extends AuthEvent {}
+class AuthenticateEvent extends AuthEvent {
+  final BaseUser currentUser;
 
-class ResetPasswordEvent extends AuthEvent {
-  final String mobileNumber;
-
-  const ResetPasswordEvent({required this.mobileNumber});
+  const AuthenticateEvent({required this.currentUser});
 }
+
+class LogoutEvent extends AuthEvent {}
