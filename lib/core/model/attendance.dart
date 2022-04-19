@@ -12,6 +12,20 @@ class AttendanceModel extends Equatable {
       required this.studentId,
       required this.timestamp});
 
+  AttendanceModel.map(Map<String, dynamic> json)
+      : this(
+            classId: json['classId'],
+            subjectCode: json['subjectCode'],
+            studentId: json['studentId'],
+            timestamp: json['timestamp']);
+
+  Map<String, dynamic> toJSON() => {
+        'classId': classId,
+        'subjectCode': subjectCode,
+        'studentId': studentId,
+        'timestamp': timestamp
+      };
+
   @override
   List<Object?> get props => [classId, subjectCode, studentId, timestamp];
 }

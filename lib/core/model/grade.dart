@@ -16,6 +16,24 @@ class GradeModel extends Equatable {
       required this.updateDate,
       required this.grades});
 
+  GradeModel.map(Map<String, dynamic> json)
+      : this(
+            subjectCode: json['subjectCode'],
+            studentId: json['studentId'],
+            facultyId: json['facultyId'],
+            createDate: json['createDate'],
+            updateDate: json['updateDate'],
+            grades: json['grades']);
+
+  Map<String, dynamic> toJSON() => {
+        'subjectCode': subjectCode,
+        'studentId': studentId,
+        'facultyId': facultyId,
+        'createDate': createDate,
+        'updateDate': updateDate,
+        'grades': grades
+      };
+
   @override
   List<Object?> get props =>
       [subjectCode, studentId, facultyId, createDate, updateDate, grades];

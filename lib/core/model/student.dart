@@ -17,6 +17,22 @@ class StudentModel extends BaseUser {
             firstName: firstName,
             lastName: lastName);
 
+  StudentModel.map(Map<String, dynamic> json)
+      : this(
+            id: json['id'],
+            mobileNumber: json['mobileNumber'],
+            firstName: json['firstName'],
+            lastName: json['lastName'],
+            parentMobileNumber: json['parentMobileNumber']);
+
+  Map<String, dynamic> toJSON() => {
+        'id': id,
+        'mobileNumber': mobileNumber,
+        'firstName': firstName,
+        'lastName': lastName,
+        'parentMobileNumber': parentMobileNumber
+      };
+
   @override
   List<Object?> get props =>
       [id, mobileNumber, firstName, lastName, parentMobileNumber];

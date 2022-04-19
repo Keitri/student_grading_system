@@ -14,6 +14,20 @@ class FacultyModel extends BaseUser {
             firstName: firstName,
             lastName: lastName);
 
+  FacultyModel.map(Map<String, dynamic> json)
+      : this(
+            id: json['id'],
+            mobileNumber: json['mobileNumber'],
+            firstName: json['firstName'],
+            lastName: json['lastName']);
+
+  Map<String, dynamic> toJSON() => {
+        'id': id,
+        'mobileNumber': mobileNumber,
+        'firstName': firstName,
+        'lastName': lastName
+      };
+
   @override
   List<Object?> get props => [id, mobileNumber, firstName, lastName];
 }
