@@ -9,8 +9,6 @@ abstract class FacultyState extends Equatable {
 
 class FacultyInitial extends FacultyState {}
 
-class FacultyShowForm extends FacultyState {}
-
 class FacultyShowDetails extends FacultyState {}
 
 class FacultyListLoaded extends FacultyState {

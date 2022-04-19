@@ -7,6 +7,7 @@ import 'package:student_grading_app/view/values/apptext.dart';
 
 import '../../core/bloc/auth/auth_bloc.dart';
 import '../../core/bloc/faculty/faculty_bloc.dart';
+import '../../core/bloc/student/student_bloc.dart';
 import '../../core/interface/idatabase.dart';
 
 class HomePage extends StatelessWidget {
@@ -34,6 +35,10 @@ class HomePage extends StatelessWidget {
       switch (state.currentUser.runtimeType) {
         case RegistrarModel:
           return MultiBlocProvider(providers: [
+            BlocProvider<StudentBloc>(
+              lazy: false,
+              create: (_) => StudentBloc(db: _db)..add(GetAllStudentEvent())
+            ),
             BlocProvider<FacultyBloc>(
               lazy: false,
               create: (_) => FacultyBloc(db: _db)..add(GetAllFacultyEvent()),

@@ -65,6 +65,8 @@ class FacultyForm extends StatelessWidget {
                   BlocConsumer<FacultyBloc, FacultyState>(
                       bloc: bloc,
                       listener: (context, state) {
+                        // Hide Scaffold Messenger
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         if (state is NewFacultyError) {
                           // Show Error Message
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

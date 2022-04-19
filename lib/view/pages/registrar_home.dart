@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_grading_app/core/bloc/faculty/faculty_bloc.dart';
 import 'package:student_grading_app/view/pages/faculty_list.dart';
-import 'package:student_grading_app/view/pages/routes.dart';
+import 'package:student_grading_app/view/pages/grade_list.dart';
+import 'package:student_grading_app/view/pages/student_list.dart';
+import 'package:student_grading_app/view/pages/subject_list.dart';
 import 'package:student_grading_app/view/transitions/transitions.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
+
+import '../../core/bloc/student/student_bloc.dart';
 
 class RegistrarHome extends StatelessWidget {
   const RegistrarHome({Key? key}) : super(key: key);
@@ -54,7 +58,8 @@ class RegistrarHome extends StatelessWidget {
   // Subjects
   Widget _subjects(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(AppRoutes.subjectList),
+        onTap: () => Navigator.of(context)
+            .push(SlideRightRoute(page: SubjectListPage())),
         child: _itemCard(false, AppText.subjects, Colors.orangeAccent));
   }
 
@@ -75,14 +80,22 @@ class RegistrarHome extends StatelessWidget {
   // Students
   Widget _students(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(AppRoutes.studentList),
-        child: _itemCard(false, AppText.students, Colors.redAccent));
+        onTap: () => Navigator.of(context).push(SlideRightRoute(
+            page:
+                StudentListPage(bloc: BlocProvider.of<StudentBloc>(context)))),
+        child: BlocBuilder<StudentBloc, StudentState>(
+            buildWhen: (previous, current) =>
+                current is StudentListLoaded || current is StudentLoading,
+            builder: (_, state) => _itemCard(
+                state is StudentLoading, AppText.students, Colors.redAccent,
+                count: state is StudentListLoaded ? state.data.length : 0)));
   }
 
   // Grades
   Widget _grades(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(AppRoutes.gradeList),
+        onTap: () =>
+            Navigator.of(context).push(SlideRightRoute(page: GradeListPage())),
         child: _itemCard(false, AppText.grades, Colors.green));
   }
 }

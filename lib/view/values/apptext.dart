@@ -3,6 +3,7 @@ class AppText {
   static const String login = "Login";
   static const String register = "Register";
   static const String mobileNumber = "Mobile Number";
+  static const String parentMobileNumber = "Parent Mobile Number";
   static const String firstName = "First Name";
   static const String lastName = "Last Name";
   static const String defaultPass = "Default Password";
@@ -14,6 +15,7 @@ class AppText {
   static const String facultySaved = "Faculty saved";
   static const String facultyError = "Error Saving Faculty";
   static const String studentCreated = "Student created";
+  static const String studentSaved = "Student saved";
   static const String studentyError = "Error Saving Student";
   static const String mobileNumberRequired = "Mobile number is required!";
   static const String passwordRequired = "Password is required!";

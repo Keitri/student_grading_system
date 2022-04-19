@@ -9,7 +9,7 @@ import '../../core/model/faculty.dart';
 
 class FacultyListPage extends StatelessWidget {
   final FacultyBloc bloc;
-  final colorAccent = Colors.deepPurpleAccent;
+  final colorAccent = Colors.redAccent;
 
   FacultyListPage({required this.bloc, Key? key}) : super(key: key) {
     if (bloc.state.runtimeType != FacultyInitial) {
