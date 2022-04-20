@@ -36,5 +36,14 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
         add(LoadGradeList());
       }
     });
+    on<GetAllGradesEvent>((event, emit) {
+      emit(GradeLoading());
+      db.allGradeStream().listen((event) {
+        // Load Grades
+        _grades.clear();
+        _grades.addAll(event);
+        add(LoadGradeList());
+      });
+    });
   }
 }

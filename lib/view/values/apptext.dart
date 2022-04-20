@@ -27,6 +27,7 @@ class AppText {
   static const String passwordRequired = "Password is required!";
   static const String userNotFound = "User not found!";
   static const String save = "Save";
+  static const String sendSms = "Send Grade to Parent";
   static const String scanId = "Scan Student Id";
   static const String endClass = "End Class";
   static const String subjects = "Subjects";
@@ -35,6 +36,8 @@ class AppText {
   static const String classes = "Classes";
   static const String categories = "Categories";
   static const String grades = "Grades";
+  static const String breakdown = "Grade Breakdown";
+  static const String sendGradeToParent = "Send Grades to Parent";
   static const String newFaculty = "New Faculty";
   static const String newStudent = "New Student";
   static const String newSubject = "New Subject";

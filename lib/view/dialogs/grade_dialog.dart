@@ -158,7 +158,11 @@ class _GradeDialogState extends State<GradeDialog> {
                   id: const Uuid().v4(),
                   totalGrade: totalGrade,
                   subjectId: widget.subject.id,
+                  subjectName: widget.subject.code,
                   studentId: widget.student.id,
+                  studentName:
+                      widget.student.firstName + " " + widget.student.lastName,
+                  parentsMobileNumber: widget.student.parentMobileNumber,
                   facultyId: widget.subject.facultyId,
                   createDate: DateTime.now(),
                   grades: grades)));

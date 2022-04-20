@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_grading_app/core/bloc/auth/auth_bloc.dart';
 import 'package:student_grading_app/core/model/faculty.dart';
+import 'package:student_grading_app/view/dialogs/grade_breakdown_dialog.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
+import 'package:student_grading_app/view/widgets/widget.dart';
 
 import '../../core/bloc/grade/grade_bloc.dart';
+import '../../core/model/grade.dart';
 
 class GradeListPage extends StatelessWidget {
   final colorAccent = Colors.green;
@@ -49,6 +52,42 @@ class GradeListPage extends StatelessWidget {
             ]));
   }
 
+  // Grade List
+  Widget _gradeList(BuildContext context, List<GradeModel> data) {
+    return ListView(children: [
+      ...data.map((g) => Column(children: [
+            ListTile(
+              title: Text(g.studentName),
+              subtitle: Text(g.subjectName),
+              trailing: totalGradeWidget(g.totalGrade),
+              onTap: () {
+                // Show Gread Breakdown
+                showDialog(
+                    context: context,
+                    builder: (_) => GradeBreakdownDialog(grade: g));
+              },
+            ),
+            const Divider()
+          ]))
+    ]);
+  }
+
+  Widget _mainContent(BuildContext context) {
+    return BlocBuilder<GradeBloc, GradeState>(
+      bloc: bloc,
+      buildWhen: (previous, current) =>
+          current is GradeListLoaded || current is GradeLoading,
+      builder: (context, state) {
+        if (state is GradeListLoaded) {
+          return state.data.isEmpty
+              ? _noGrade()
+              : _gradeList(context, state.data);
+        }
+        return Center(child: CircularProgressIndicator(color: colorAccent));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +96,6 @@ class GradeListPage extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.green,
         ),
-        body: Stack(children: [_noGrade(), _addButton(context)]));
+        body: Stack(children: [_mainContent(context)]));
   }
 }

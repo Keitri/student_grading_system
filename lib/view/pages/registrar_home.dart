@@ -107,6 +107,11 @@ class RegistrarHome extends StatelessWidget {
     return GestureDetector(
         onTap: () => Navigator.of(context).push(SlideRightRoute(
             page: GradeListPage(bloc: BlocProvider.of<GradeBloc>(context)))),
-        child: _itemCard(false, AppText.grades, Colors.green));
+        child: BlocBuilder<GradeBloc, GradeState>(
+            buildWhen: (previous, current) =>
+                current is GradeListLoaded || current is GradeLoading,
+            builder: (_, state) => _itemCard(
+                false, AppText.grades, Colors.green,
+                count: state is GradeListLoaded ? state.data.length : 0)));
   }
 }

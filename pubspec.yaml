@@ -63,6 +63,9 @@ dependencies:
   # RxDart is an implementation of the popular reactiveX api for asynchronous programming, leveraging the native Dart Streams api.
   rxdart: ^0.27.3
 
+  # A Package that helps with twilio API.Supports Twilio Programmable SMS.
+  twilio_flutter: ^0.0.9
+
   # RFC4122 (v1, v4, v5) UUID Generator and Parser for all Dart platforms (Web, VM, Flutter)
   uuid: ^3.0.6
 

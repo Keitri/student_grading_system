@@ -5,6 +5,7 @@ import 'package:injector/injector.dart';
 import 'package:student_grading_app/core/bloc/auth/auth_bloc.dart';
 import 'package:student_grading_app/core/interface/iauth.dart';
 import 'package:student_grading_app/core/interface/idatabase.dart';
+import 'package:student_grading_app/core/interface/isms.dart';
 import 'package:student_grading_app/services/firebase/firebase_auth.dart';
 import 'package:student_grading_app/services/firebase/firestore.dart';
 import 'package:student_grading_app/view/pages/home.dart';
@@ -12,6 +13,7 @@ import 'package:student_grading_app/view/pages/routes.dart';
 import 'package:student_grading_app/view/transitions/transitions.dart';
 import 'core/bloc/app/app_bloc.dart';
 import 'core/bloc/login/login_bloc.dart';
+import 'services/twilio/twilio.dart';
 import 'view/pages/pages.dart';
 
 void main() async {
@@ -23,6 +25,7 @@ void main() async {
   // Setup Dependencies
   Injector.appInstance.registerDependency<IAuth>(() => FBAuth());
   Injector.appInstance.registerDependency<IDatabase>(() => Firestore());
+  Injector.appInstance.registerDependency<ISms>(() => Twilio());
 
   runApp(MyApp());
 }
