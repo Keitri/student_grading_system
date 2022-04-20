@@ -28,6 +28,12 @@ class UpdateClassDetails extends ClassEvent {
   const UpdateClassDetails({required this.updatedData});
 }
 
+class UpdateClassDetailsView extends ClassEvent {
+  final ClassModel updatedData;
+
+  const UpdateClassDetailsView({required this.updatedData});
+}
+
 class AddStudentId extends ClassEvent {
   final String studentId;
 

@@ -24,6 +24,9 @@ class SubjectListLoaded extends SubjectState {
   final List<SubjectModel> data;
 
   const SubjectListLoaded({required this.data});
+
+  @override
+  List<Object> get props => [data];
 }
 
 class SubjectLoading extends SubjectState {}

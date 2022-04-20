@@ -32,6 +32,12 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       // Update Database
       db.saveClass(event.updatedData);
     });
+    on<UpdateClassDetailsView>((event, emit) {
+      emit(ClassLoading());
+      emit(ClassDetailsUpdated(updatedData: event.updatedData));
+      // Update Database
+      db.saveClass(event.updatedData);
+    });
     on<GetClassForSubjectEvent>((event, emit) {
       emit(ClassLoading());
       db.getSubjectClassStream(event.subjectId).listen((event) {

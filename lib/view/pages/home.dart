@@ -109,7 +109,7 @@ class HomePage extends StatelessWidget {
             ),
             BlocProvider<GradeBloc>(
               lazy: false,
-              create: (_) => GradeBloc(),
+              create: (_) => GradeBloc(db: _db)..add(GetAllGradesEvent()),
             )
           ], child: const RegistrarHome());
         case FacultyModel:

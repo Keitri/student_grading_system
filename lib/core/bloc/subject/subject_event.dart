@@ -29,3 +29,9 @@ class UpdateSubjectDetails extends SubjectEvent {
 
   const UpdateSubjectDetails({required this.updatedData});
 }
+
+class UpdateSubjectDetailsView extends SubjectEvent {
+  final SubjectModel updatedData;
+
+  const UpdateSubjectDetailsView({required this.updatedData});
+}

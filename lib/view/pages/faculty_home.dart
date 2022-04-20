@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart';
 import 'package:student_grading_app/core/bloc/class/class_bloc.dart';
+import 'package:student_grading_app/core/bloc/grade/grade_bloc.dart';
 import 'package:student_grading_app/core/bloc/subject/subject_bloc.dart';
 import 'package:student_grading_app/core/interface/idatabase.dart';
 import 'package:student_grading_app/view/pages/faculty_subject.dart';
@@ -47,13 +48,22 @@ class FacultyHome extends StatelessWidget {
               ),
               onTap: () {
                 // Show Faculty Subject Details
+                final subjectBloc = BlocProvider.of<SubjectBloc>(context);
+                subjectBloc.add(UpdateSubjectDetailsView(updatedData: f));
                 Navigator.of(context).push(SlideRightRoute(
-                    page: BlocProvider<ClassBloc>(
-                  lazy: false,
-                  create: (_) => ClassBloc(db: _db)
-                    ..add(GetClassForSubjectEvent(subjectId: f.id)),
+                    page: MultiBlocProvider(
+                  providers: [
+                    BlocProvider<ClassBloc>(
+                        lazy: false,
+                        create: (_) => ClassBloc(db: _db)
+                          ..add(GetClassForSubjectEvent(subjectId: f.id))),
+                    BlocProvider<GradeBloc>(
+                        lazy: false,
+                        create: (_) => GradeBloc(db: _db)
+                          ..add(GetGradeForSubjectEvent(subjectId: f.id)))
+                  ],
                   child: FacultySubjectDetails(
-                      bloc: BlocProvider.of<SubjectBloc>(context),
+                      bloc: subjectBloc,
                       studentBloc: BlocProvider.of<StudentBloc>(context),
                       data: f),
                 )));

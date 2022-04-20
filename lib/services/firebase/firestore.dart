@@ -265,4 +265,19 @@ class Firestore implements IDatabase {
       return result;
     });
   }
+
+  @override
+  Stream<List<GradeModel>> getSubjectGradeStream(String subjectId) {
+    return FirebaseFirestore.instance
+        .collection(gradeTable)
+        .where('subjectId', isEqualTo: subjectId)
+        .snapshots()
+        .map((snapshots) {
+      final result = <GradeModel>[];
+      for (var element in snapshots.docs) {
+        result.add(GradeModel.map(element.data()));
+      }
+      return result;
+    });
+  }
 }

@@ -1,7 +1,9 @@
 class AppText {
   static const String appName = "Student Grading App";
   static const String login = "Login";
+  static const String student = "Student";
   static const String register = "Register";
+  static const String setGrade = "Set Grade";
   static const String mobileNumber = "Mobile Number";
   static const String parentMobileNumber = "Parent Mobile Number";
   static const String firstName = "First Name";
@@ -45,8 +47,14 @@ class AppText {
   static const String studentScannedSuccess = "Student recorded successfully";
   static const String noGrade = "No Grade Found!";
   static const String noClass = "No Class Found!";
+  static const String noCategory = "No Category Found!";
   static const String addClass = "Tap the + button to add a class";
+  static const String addCategory = "Tap the + button to add a category";
+  static const String add = "Add";
+  static const String attendance = "Attendance";
+  static const String newCategory = "New Category";
   static const String startTime = "Start Time";
+  static const String endTime = "End Time";
   static const String classInProgress = "Class stil in progress!";
   static const String addFaculty = "Tap the + button to add a faculty";
   static const String addSubject = "Tap the + button to add a subject";

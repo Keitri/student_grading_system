@@ -35,7 +35,13 @@ class ClassDetailsPage extends StatelessWidget {
         title: Text(classData.startTime.toIso8601String()),
         subtitle: const Text(AppText.startTime),
       ),
-      const Divider()
+      const Divider(),
+      classData.endTime != null
+          ? ListTile(
+              title: Text(classData.startTime.toIso8601String()),
+              subtitle: const Text(AppText.endTime),
+            )
+          : Container()
     ]);
   }
 
@@ -168,7 +174,9 @@ class ClassDetailsPage extends StatelessWidget {
                       const SizedBox(width: 10)
                     ])),
                 Expanded(child: _studentList(state.updatedData, studentList)),
-                _bottomButtons(context, state.updatedData)
+                state.updatedData.endTime == null
+                    ? _bottomButtons(context, state.updatedData)
+                    : Container()
               ]);
             } else {
               return Container();

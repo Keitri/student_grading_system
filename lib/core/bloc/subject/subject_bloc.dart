@@ -36,9 +36,13 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       });
     });
     on<UpdateSubjectDetails>((event, emit) {
+      emit(SubjectLoading());
       emit(SubjectDetailsUpdated(updatedData: event.updatedData));
       // Update Database
       db.saveSubject(event.updatedData);
+    });
+    on<UpdateSubjectDetailsView>((event, emit) {
+      emit(SubjectDetailsUpdated(updatedData: event.updatedData));
     });
     on<GetSubjectForFacultyEvent>((event, emit) {
       emit(SubjectLoading());

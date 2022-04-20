@@ -73,7 +73,7 @@ class SubjectListPage extends StatelessWidget {
                 style: const TextStyle(color: Colors.black54),
               ),
               onTap: () {
-                bloc.add(UpdateSubjectDetails(updatedData: f));
+                bloc.add(UpdateSubjectDetailsView(updatedData: f));
                 Navigator.of(context).push(SlideRightRoute(
                     page: SubjectDetailsPage(
                         bloc: bloc,

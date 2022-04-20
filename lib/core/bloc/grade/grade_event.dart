@@ -7,6 +7,8 @@ abstract class GradeEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class GetAllGradesEvent extends GradeEvent {}
+
 class GetGradeForSubjectEvent extends GradeEvent {
   final String subjectId;
   const GetGradeForSubjectEvent({required this.subjectId});

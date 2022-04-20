@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_grading_app/core/bloc/class/class_bloc.dart';
+import 'package:student_grading_app/core/model/grade.dart';
+import 'package:student_grading_app/view/dialogs/grade_dialog.dart';
+import 'package:student_grading_app/view/dialogs/new_category_dialog.dart';
 import 'package:student_grading_app/view/pages/class_details.dart';
 import 'package:student_grading_app/view/transitions/transitions.dart';
+import 'package:student_grading_app/view/widgets/widget.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../core/bloc/grade/grade_bloc.dart';
 import '../../core/bloc/student/student_bloc.dart';
 import '../../core/bloc/subject/subject_bloc.dart';
 import '../../core/model/class.dart';
@@ -54,15 +59,64 @@ class FacultySubjectDetails extends StatelessWidget {
     );
   }
 
-  Widget _studentList(List<StudentModel> students) {
+  bool _isGraded(List<GradeModel> grades, String studentId) {
+    bool _graded = false;
+    // Check if Already Graded
+    try {
+      grades.firstWhere((g) => g.studentId == studentId);
+      _graded = true;
+    } catch (e) {
+      _graded = false;
+    }
+    return _graded;
+  }
+
+  double _getTotalGrade(List<GradeModel> grades, String studentId) {
+    double _grade = 0;
+    // Check if Already Graded
+    try {
+      final result = grades.firstWhere((g) => g.studentId == studentId);
+      _grade = result.totalGrade;
+    } catch (e) {
+      _grade = 0;
+    }
+    return _grade;
+  }
+
+  Widget _studentList(
+      BuildContext context, List<StudentModel> students, GradeState state) {
+    final List<GradeModel> grades = <GradeModel>[];
+    if (state is GradeListLoaded) {
+      grades.clear();
+      grades.addAll(state.data);
+    }
     return ListView(children: [
       ...students.map((s) => Column(children: [
             ListTile(
                 onTap: () {
+                  if (data.categories.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(AppText.noCategory),
+                        backgroundColor: Colors.red));
+                    return;
+                  }
+
                   // Show Grade Screen
+                  if (!_isGraded(grades, s.id)) {
+                    showDialog(
+                        context: context,
+                        builder: (_) => GradeDialog(
+                            bloc: BlocProvider.of<GradeBloc>(context),
+                            student: s,
+                            classes:
+                                BlocProvider.of<ClassBloc>(context).classes,
+                            subject: data));
+                  }
                 },
                 title: Text(s.firstName + " " + s.lastName),
-                trailing: _notGraded()),
+                trailing: _isGraded(grades, s.id)
+                    ? totalGradeWidget(_getTotalGrade(grades, s.id))
+                    : _notGraded()),
             const Divider()
           ]))
     ]);
@@ -167,7 +221,7 @@ class FacultySubjectDetails extends StatelessWidget {
             ListTile(
                 onTap: () {
                   final classBloc = BlocProvider.of<ClassBloc>(context);
-                  classBloc.add(UpdateClassDetails(updatedData: c));
+                  classBloc.add(UpdateClassDetailsView(updatedData: c));
                   // Show Class Details Screen
                   Navigator.of(context).push(SlideRightRoute(
                       page: ClassDetailsPage(
@@ -199,6 +253,74 @@ class FacultySubjectDetails extends StatelessWidget {
         });
   }
 
+  Widget _addCategoryButton(BuildContext context) {
+    return Align(
+        alignment: Alignment.bottomRight,
+        child: Container(
+            margin: const EdgeInsets.all(20),
+            child: FloatingActionButton(
+              backgroundColor: accentColor,
+              onPressed: () async {
+                // Show Add Category Dialog
+                final newCategory = await showDialog(
+                    context: context, builder: (_) => NewCategoryDialog());
+                if (newCategory != null && newCategory is String) {
+                  if (newCategory.isNotEmpty) {
+                    // Update Subject
+                    data.categories.add(newCategory);
+                    bloc.add(UpdateSubjectDetails(updatedData: data));
+                  }
+                }
+              },
+              child: const Center(child: Icon(Icons.add)),
+            )));
+  }
+
+  Widget _categoryList(SubjectModel subject) {
+    return ListView(children: [
+      ...subject.categories.map((s) => Column(children: [
+            ListTile(title: Text(s)),
+            const Divider(),
+          ]))
+    ]);
+  }
+
+  Widget _noCategory() {
+    return SizedBox(
+        width: double.infinity,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(AppText.noCategory,
+                  style: TextStyle(fontSize: 20, color: Colors.grey)),
+              Container(height: 10),
+              const Text(AppText.addCategory,
+                  style: TextStyle(fontSize: 16, color: Colors.grey))
+            ]));
+  }
+
+  Widget _categorySection(BuildContext context) {
+    return BlocBuilder<SubjectBloc, SubjectState>(
+        bloc: bloc,
+        buildWhen: (previous, current) => current is SubjectDetailsUpdated,
+        builder: (context, state) {
+          if (state is SubjectDetailsUpdated) {
+            return Stack(children: [
+              state.updatedData.categories.isEmpty
+                  ? _noCategory()
+                  : _categoryList(state.updatedData),
+              _addCategoryButton(context)
+            ]);
+          } else {
+            return Stack(children: [
+              data.categories.isEmpty ? _noCategory() : _categoryList(data),
+              _addCategoryButton(context)
+            ]);
+          }
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -219,11 +341,22 @@ class FacultySubjectDetails extends StatelessWidget {
                       ")",
                   style: const TextStyle(color: Colors.black),
                 )),
-                const Tab(
-                    child: Text(
-                  AppText.categories,
-                  style: TextStyle(color: Colors.black),
-                )),
+                Tab(
+                    child: BlocBuilder<SubjectBloc, SubjectState>(
+                        bloc: bloc,
+                        buildWhen: (previous, current) =>
+                            current is SubjectDetailsUpdated,
+                        builder: (context, state) {
+                          final updatedState = state as SubjectDetailsUpdated;
+                          return Text(
+                            AppText.categories +
+                                " (" +
+                                updatedState.updatedData.categories.length
+                                    .toString() +
+                                ")",
+                            style: const TextStyle(color: Colors.black),
+                          );
+                        })),
                 Tab(
                     child: BlocBuilder<ClassBloc, ClassState>(
                         buildWhen: (previous, current) =>
@@ -242,8 +375,13 @@ class FacultySubjectDetails extends StatelessWidget {
               // Tab Bar for Students and Class
               Expanded(
                   child: TabBarView(children: [
-                studentList.isEmpty ? _noStudent() : _studentList(studentList),
-                Container(color: Colors.green),
+                studentList.isEmpty
+                    ? _noStudent()
+                    : BlocBuilder<GradeBloc, GradeState>(
+                        builder: (context, state) {
+                        return _studentList(context, studentList, state);
+                      }),
+                _categorySection(context),
                 _classSection(context)
               ]))
             ]

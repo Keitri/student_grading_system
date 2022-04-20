@@ -39,6 +39,15 @@ class ClassModel extends Equatable {
         'endTime': endTime
       };
 
+  bool studentIdExist(String studentId) {
+    try {
+      studentIds.firstWhere((s) => s == studentId);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   @override
   List<Object?> get props =>
       [id, subjectId, facultyId, startTime, studentIds.length, endTime];
