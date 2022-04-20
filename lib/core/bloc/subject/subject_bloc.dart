@@ -53,5 +53,14 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
         add(LoadSubjectList());
       });
     });
+    on<GetSubjectForStudentEvent>((event, emit) {
+      emit(SubjectLoading());
+      db.getStudentSubjectStream(event.studentId).listen((event) {
+        // Load Students
+        _subjects.clear();
+        _subjects.addAll(event);
+        add(LoadSubjectList());
+      });
+    });
   }
 }

@@ -14,6 +14,11 @@ class GetSubjectForFacultyEvent extends SubjectEvent {
   const GetSubjectForFacultyEvent({required this.facultyId});
 }
 
+class GetSubjectForStudentEvent extends SubjectEvent {
+  final String studentId;
+  const GetSubjectForStudentEvent({required this.studentId});
+}
+
 class GetSubjectDetails extends SubjectEvent {}
 
 class LoadSubjectList extends SubjectEvent {}

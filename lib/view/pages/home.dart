@@ -7,6 +7,7 @@ import 'package:student_grading_app/core/model/registrar.dart';
 import 'package:student_grading_app/core/model/role.dart';
 import 'package:student_grading_app/view/pages/faculty_home.dart';
 import 'package:student_grading_app/view/pages/registrar_home.dart';
+import 'package:student_grading_app/view/pages/student_home.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
 import 'package:student_grading_app/view/widgets/button.dart';
 
@@ -15,6 +16,7 @@ import '../../core/bloc/faculty/faculty_bloc.dart';
 import '../../core/bloc/grade/grade_bloc.dart';
 import '../../core/bloc/student/student_bloc.dart';
 import '../../core/interface/idatabase.dart';
+import '../../core/model/student.dart';
 
 class HomePage extends StatelessWidget {
   IDatabase get _db => Injector.appInstance.get<IDatabase>();
@@ -125,6 +127,25 @@ class HomePage extends StatelessWidget {
               create: (_) => StudentBloc(db: _db)..add(GetAllStudentEvent()),
             ),
           ], child: const FacultyHome());
+        case StudentModel:
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider<SubjectBloc>(
+                  lazy: false,
+                  create: (_) => SubjectBloc(db: _db)
+                    ..add(GetSubjectForStudentEvent(
+                        studentId: state.currentUser.id)),
+                ),
+                BlocProvider<GradeBloc>(
+                  lazy: false,
+                  create: (_) => GradeBloc(db: _db)
+                    ..add(GetGradeForStudentEvent(
+                        studentId: state.currentUser.id)),
+                )
+              ],
+              child: StudentHome(
+                userData: state.currentUser,
+              ));
         default:
           return Container(color: Colors.red);
       }

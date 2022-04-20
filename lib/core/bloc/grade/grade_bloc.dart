@@ -23,7 +23,17 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
         add(LoadGradeList());
       });
     });
+    on<GetGradeForStudentEvent>((event, emit) {
+      emit(GradeLoading());
+      db.getStudentGradeStream(event.studentId).listen((event) {
+        // Load Grades
+        _grades.clear();
+        _grades.addAll(event);
+        add(LoadGradeList());
+      });
+    });
     on<LoadGradeList>((event, emit) {
+      emit(GradeLoading());
       emit(GradeListLoaded(data: _grades));
     });
     on<SaveNewGrade>((event, emit) async {

@@ -14,6 +14,11 @@ class GetGradeForSubjectEvent extends GradeEvent {
   const GetGradeForSubjectEvent({required this.subjectId});
 }
 
+class GetGradeForStudentEvent extends GradeEvent {
+  final String studentId;
+  const GetGradeForStudentEvent({required this.studentId});
+}
+
 class GetGradeDetails extends GradeEvent {}
 
 class LoadGradeList extends GradeEvent {}
