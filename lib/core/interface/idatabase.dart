@@ -35,4 +35,6 @@ abstract class IDatabase {
   Stream<List<GradeModel>> allGradeStream();
 
   Stream<List<SubjectModel>> getFacultySubjectStream(String facultyId);
+
+  Stream<List<ClassModel>> getSubjectClassStream(String subjectId);
 }

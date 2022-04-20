@@ -25,9 +25,13 @@ class AppText {
   static const String passwordRequired = "Password is required!";
   static const String userNotFound = "User not found!";
   static const String save = "Save";
+  static const String scanId = "Scan Student Id";
+  static const String endClass = "End Class";
   static const String subjects = "Subjects";
   static const String faculties = "Faculties";
   static const String students = "Students";
+  static const String classes = "Classes";
+  static const String categories = "Categories";
   static const String grades = "Grades";
   static const String newFaculty = "New Faculty";
   static const String newStudent = "New Student";
@@ -36,13 +40,21 @@ class AppText {
   static const String noFaculty = "No Faculty Found!";
   static const String noSubject = "No Subject Found!";
   static const String noStudent = "No Student Found!";
+  static const String invalidId = "Invalid Student Id";
+  static const String studentAlreadyRecorded = "Student already scanned";
+  static const String studentScannedSuccess = "Student recorded successfully";
   static const String noGrade = "No Grade Found!";
+  static const String noClass = "No Class Found!";
+  static const String addClass = "Tap the + button to add a class";
+  static const String startTime = "Start Time";
+  static const String classInProgress = "Class stil in progress!";
   static const String addFaculty = "Tap the + button to add a faculty";
   static const String addSubject = "Tap the + button to add a subject";
   static const String addStudent = "Tap the + button to add a student";
   static const String addGrade = "Tap the + button to add a Grade";
   static const String requestGrade = "Contact faculties to enter grades";
-  static const String requestSubject = "Contact registrar to add subjects";
+  static const String requestSubject = "Contact registrar to assign subjects";
+  static const String requestStudent = "Contact registrar to assign students";
   static const String attendanceSaved = "Attendance saved";
   static const String attendanceError = "Error saving attendance";
   static const String classSaved = "Class saved";
@@ -54,7 +66,6 @@ class AppText {
   static const String subjectCode = "Code";
   static const String description = "Description";
   static const String units = "Units";
-  static const String categories = "Categories";
   static const String logout = "Logout";
   static const String changePassword = "Change Password";
 }

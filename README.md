@@ -43,4 +43,4 @@ Flutter Version: 2.10.5
 
 - Firebase is not yet setup for iOS, you can only test this app in Android.
 - Firebase auth does not support mobile number and password combination, as a work around I treated mobile number as email by adding a domain at the end.
-- For the showing the counts (i.e number of faculty, students, subjects and grades) it is selecting all child nodes from that table, which is costly. But for this demo app this will do, if ever you need to scale up and save some transactions, you need to create a firebase function to consolidate the counts for each table.
+- For the showing the counts (i.e number of faculty, students, subjects and grades) it is selecting all child nodes from that table, which is costly. But for this demo app this will do, if ever we need to scale up and save some transactions, you need to create a firebase function to consolidate the counts for each table, other option is caching the firestore and retrieve updated data only if needed.

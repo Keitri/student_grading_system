@@ -85,6 +85,22 @@ class SubjectDetailsPage extends StatelessWidget {
     ]);
   }
 
+  // No Student Text
+  Widget _noStudent() {
+    return SizedBox(
+        width: double.infinity,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(AppText.noStudent,
+                  style: TextStyle(fontSize: 20, color: Colors.grey)),
+              Container(height: 10),
+              const Text(AppText.addStudent,
+                  style: TextStyle(fontSize: 16, color: Colors.grey))
+            ]));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,7 +179,10 @@ class SubjectDetailsPage extends StatelessWidget {
                           )
                         ],
                       )),
-                  Expanded(child: _studentList(studentList))
+                  Expanded(
+                      child: studentList.isEmpty
+                          ? _noStudent()
+                          : _studentList(studentList))
                 ]);
               } else {
                 return Container();

@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart';
 import 'package:student_grading_app/core/bloc/subject/subject_bloc.dart';
+import 'package:student_grading_app/core/model/faculty.dart';
 import 'package:student_grading_app/core/model/registrar.dart';
 import 'package:student_grading_app/core/model/role.dart';
-import 'package:student_grading_app/view/dialogs/change_password.dart';
+import 'package:student_grading_app/view/pages/faculty_home.dart';
 import 'package:student_grading_app/view/pages/registrar_home.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
 import 'package:student_grading_app/view/widgets/button.dart';
 
 import '../../core/bloc/auth/auth_bloc.dart';
 import '../../core/bloc/faculty/faculty_bloc.dart';
+import '../../core/bloc/grade/grade_bloc.dart';
 import '../../core/bloc/student/student_bloc.dart';
 import '../../core/interface/idatabase.dart';
 
@@ -104,8 +106,25 @@ class HomePage extends StatelessWidget {
             BlocProvider<SubjectBloc>(
               lazy: false,
               create: (_) => SubjectBloc(db: _db)..add(GetAllSubjectEvent()),
+            ),
+            BlocProvider<GradeBloc>(
+              lazy: false,
+              create: (_) => GradeBloc(),
             )
           ], child: const RegistrarHome());
+        case FacultyModel:
+          return MultiBlocProvider(providers: [
+            BlocProvider<SubjectBloc>(
+              lazy: false,
+              create: (_) => SubjectBloc(db: _db)
+                ..add(
+                    GetSubjectForFacultyEvent(facultyId: state.currentUser.id)),
+            ),
+            BlocProvider<StudentBloc>(
+              lazy: false,
+              create: (_) => StudentBloc(db: _db)..add(GetAllStudentEvent()),
+            ),
+          ], child: const FacultyHome());
         default:
           return Container(color: Colors.red);
       }

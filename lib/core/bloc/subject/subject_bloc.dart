@@ -40,5 +40,14 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       // Update Database
       db.saveSubject(event.updatedData);
     });
+    on<GetSubjectForFacultyEvent>((event, emit) {
+      emit(SubjectLoading());
+      db.getFacultySubjectStream(event.facultyId).listen((event) {
+        // Load Students
+        _subjects.clear();
+        _subjects.addAll(event);
+        add(LoadSubjectList());
+      });
+    });
   }
 }

@@ -9,6 +9,7 @@ import 'package:student_grading_app/view/pages/subject_list.dart';
 import 'package:student_grading_app/view/transitions/transitions.dart';
 import 'package:student_grading_app/view/values/apptext.dart';
 
+import '../../core/bloc/grade/grade_bloc.dart';
 import '../../core/bloc/student/student_bloc.dart';
 import '../../core/bloc/subject/subject_bloc.dart';
 
@@ -104,8 +105,8 @@ class RegistrarHome extends StatelessWidget {
   // Grades
   Widget _grades(BuildContext context) {
     return GestureDetector(
-        onTap: () =>
-            Navigator.of(context).push(SlideRightRoute(page: GradeListPage())),
+        onTap: () => Navigator.of(context).push(SlideRightRoute(
+            page: GradeListPage(bloc: BlocProvider.of<GradeBloc>(context)))),
         child: _itemCard(false, AppText.grades, Colors.green));
   }
 }
